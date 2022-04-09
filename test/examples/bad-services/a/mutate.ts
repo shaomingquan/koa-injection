@@ -1,0 +1,1 @@
+export const mutate = () => 'an item got mutated'
