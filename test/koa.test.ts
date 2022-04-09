@@ -56,6 +56,7 @@ test('bad injections 1', async () => {
     await injectKoaRuntimeCtx(koaApp, 'services', 'test/examples/services-0')
 
     fse.removeSync('test/examples/services-0')
+    assert.fail('should throw')
   } catch (e) {
     fse.removeSync('test/examples/services-0')
     // 因为nodejs正常的pkg缓存行为，koa-injection会抛出这个错误
@@ -75,9 +76,26 @@ test('bad injections 2', async () => {
 
     fse.removeSync('test/examples/services-1')
     fse.removeSync('test/examples/services-2')
+    assert.fail('should throw')
   } catch (e) {
     fse.removeSync('test/examples/services-1')
     fse.removeSync('test/examples/services-2')
     assert.isTrue(e.name === 'injectKey conflict, reason: repeat inject')
+  }
+})
+
+
+test('bad injections 3', async () => {
+  // 不可注册一个存在于koa ctx中的key
+  const koaApp = new Koa
+  try {
+    fse.copySync('test/examples/services', 'test/examples/services-3')
+    await injectKoaRuntimeCtx(koaApp, 'cookies', 'test/examples/services-3')
+
+    fse.removeSync('test/examples/services-3')
+    assert.fail('should throw')
+  } catch (e) {
+    fse.removeSync('test/examples/services-3')
+    assert.isTrue(e.name === 'injectKey conflict, koa ctx member')
   }
 })

@@ -1,5 +1,5 @@
 import { test, assert } from "vitest"
-import { getAllPkgs, getAllPkgsInstances, getPkgsTree } from "../src/utils"
+import { getAllPkgs, getAllPkgsInstances, getPkgsTree, isKoaContextKey } from "../src/utils"
 import { genRootPkgRuntime } from "../src/runtime"
 
 test("dir utils", async () => {
@@ -51,4 +51,8 @@ test("runtime", async () => {
   } catch (e) {
     assert.isTrue(e.name === 'pkgName conflict')
   }
+
+  // koa lib
+  assert.isTrue(isKoaContextKey('path'))
+  assert.isFalse(isKoaContextKey('xxxx'))
 })

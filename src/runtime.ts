@@ -1,4 +1,4 @@
-import { IPkg, getPkgsTree } from "./utils";
+import { IPkg, getPkgsTree, isKoaContextKey } from "./utils";
 import Koa from 'koa';
 
 export const genRootPkgRuntime = async (root: IPkg, parentRuntime?: any): Promise<{ [ pkgName: string ]: any }> => {
@@ -25,6 +25,12 @@ export const genRootPkgRuntime = async (root: IPkg, parentRuntime?: any): Promis
 }
 
 export const injectKoaRuntimeCtx = async (koaApp: Koa ,injectKey: string, injectDir: string) => {
+    if (isKoaContextKey(injectKey)) {
+        const err = new Error(`injectKey conflict, it's a koa ctx member [${injectKey}]`)
+        err.name = `injectKey conflict, koa ctx member`
+        throw err
+    }
+    
     const pkgRoot = await getPkgsTree(injectDir)
     const runtimeToInject = await genRootPkgRuntime(pkgRoot)
 

@@ -1,6 +1,7 @@
 import { globby } from 'globby';
 import path from 'path'
 import { pkgUp } from 'pkg-up';
+import Koa from 'koa'
 
 /**
  * 
@@ -106,4 +107,11 @@ export const getPkgsTree = async (injectDir: string) => {
   }
   
   return pkgInstances[0] // root
+}
+
+
+const dummyKoaApp = new Koa
+const contextKeySet = new Set(Object.keys(dummyKoaApp.context.__proto__))
+export const isKoaContextKey = (key: string) => {
+  return contextKeySet.has(key)
 }
