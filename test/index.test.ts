@@ -5,7 +5,7 @@ import { genRootPkgRuntime } from "../src/runtime"
 test("dir utils", async () => {
   // 这里有3个pkg
   const pkgs = await getAllPkgs('test/examples/services')
-  assert.equal(pkgs.length, 3)
+  assert.equal(pkgs.length, 4)
 
   // 这里有两个pkg，并且用 ./ 的形式也没问题
   const pkgs2 = await getAllPkgs('./test/examples/services/a')

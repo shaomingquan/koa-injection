@@ -25,7 +25,7 @@ export const getAbsInjectDir = async (injectDir: string) => {
  */
 export const getAllPkgs = async  (injectDir: string) => {
   const injectAbsDir = await getAbsInjectDir(injectDir)
-  const pattern = path.resolve(injectAbsDir, './**/index.ts')
+  const pattern = path.resolve(injectAbsDir, './**/index.{ts,js,mjs}')
 
   const pkgs = await await globby(pattern);
   return [...pkgs]
@@ -39,6 +39,15 @@ export interface IPkg {
   deep: number;
   parentPkgName: string;
   isPkg: true,
+  isRoot: boolean,
+  pkgImportName: string,
+}
+
+export const upperFirst = (str: string) => {
+  if (str.length < 1) {
+    return str
+  }
+  return str[0].toUpperCase() + str.substring(1)
 }
 
 export const genPkg = (
@@ -47,16 +56,19 @@ export const genPkg = (
   pkgPath?: string[],
 ): IPkg => {
   pkgPath = pkgPath || []
+  const isRoot = pkgName === '__root'
   return {
     pkgOriginalStr,
     pkgName,
     subPkgs: {},
     pkgPath,
     deep: pkgPath.length,
-    parentPkgName: pkgName === '__root' ? 
+    parentPkgName: isRoot ? 
       '' : 
       (pkgPath[pkgPath.length - 2] || '__root'),
     isPkg: true,
+    isRoot,
+    pkgImportName: isRoot ? '' : 'autoImported' + upperFirst(pkgName)
   }
 }
 
@@ -109,6 +121,15 @@ export const getPkgsTree = async (injectDir: string) => {
   return pkgInstances[0] // root
 }
 
+export const getFlattenPkgs = (pkg: IPkg) => {
+  const pkgs: IPkg[] = []
+  const traverse = (root: IPkg) => {
+      pkgs.push(root)
+      Object.keys(root.subPkgs).forEach(k => traverse(root.subPkgs[k]))
+  }
+  traverse(pkg)
+  return pkgs
+}
 
 const dummyKoaApp = new Koa
 const contextKeySet = new Set(Object.keys(dummyKoaApp.context.__proto__))
