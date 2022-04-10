@@ -1,0 +1,23 @@
+{
+  "name": "koa-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development ts-node-dev --no-notify --respawn src/index.ts",
+    "build": "tsc",
+    "boot": "NODE_ENV=production node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-injection": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "ts-node-dev": "^1.0.0-pre.30",
+    "typescript": "^3.9.10"
+  }
+}

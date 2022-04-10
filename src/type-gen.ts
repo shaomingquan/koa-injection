@@ -1,4 +1,4 @@
-import { pkgUp } from "pkg-up"
+import pkgUp from "pkg-up"
 import { IKoaInjectConf } from "./config"
 import { getFlattenPkgs, getPkgsTree, IPkg, upperFirst } from "./utils"
 import path from 'path'

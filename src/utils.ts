@@ -1,7 +1,8 @@
-import { globby } from 'globby';
+import fg from 'fast-glob';
 import path from 'path'
-import { pkgUp } from 'pkg-up';
+
 import Koa from 'koa'
+import pkgUp from 'pkg-up'
 
 /**
  * 
@@ -27,7 +28,7 @@ export const getAllPkgs = async  (injectDir: string) => {
   const injectAbsDir = await getAbsInjectDir(injectDir)
   const pattern = path.resolve(injectAbsDir, './**/index.{ts,js,mjs}')
 
-  const pkgs = await await globby(pattern);
+  const pkgs = await await fg(pattern);
   return [...pkgs]
 }
 
