@@ -20,6 +20,7 @@
     "build-fast": "tsup src/index.ts --format cjs,esm",
     "build": "pnpm run build-fast -- --dts-resolve",
     "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "prepublish": "npm run test && npm run build"
   },
   "license": "MIT",
@@ -28,6 +29,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/koa": "^2.13.4",
     "@types/node": "^17.0.23",
+    "c8": "^7.11.0",
     "koa": "^2.13.4",
     "prettier": "2.5.1",
     "ts-node": "^10.7.0",
