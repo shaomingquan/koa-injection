@@ -13,8 +13,9 @@
 
 - examples/koa-ts：ts演示
 - examples/koa-js：js演示
+- test/*.test.ts：测试文件（没跑ci，travis收费了）
 
 ### TODO
 
-- 支持更灵活的模块定义方式，目前是每个目录为一个模块
+- 支持更灵活的模块定义方式，目前是每个目录为一个模块（见上面examples）
 - 支持mjs
